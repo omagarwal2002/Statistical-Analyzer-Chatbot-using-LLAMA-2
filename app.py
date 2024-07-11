@@ -17,7 +17,7 @@ def download_model(url, save_path):
 
 # Download the model 
 model_url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/blob/main/llama-2-7b-chat.ggmlv3.q4_0.bin"
-local_model= "models/llama-2-7b-chat.ggmlv3.q4_0.bin"
+local_model= "llama-2-7b-chat.ggmlv3.q4_0.bin"
 download_model(model_url, local_model)
 
 
@@ -48,7 +48,7 @@ def main():
 
         # Load LLM
         llm = CTransformers(
-            model="models/llama-2-7b-chat.ggmlv3.q4_0.bin",
+            model="llama-2-7b-chat.ggmlv3.q4_0.bin",
             model_type="llama",
             max_new_tokens=512,
             temperature=0.1
