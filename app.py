@@ -13,7 +13,7 @@ DB_FAISS_PATH = 'vectorstore/db_faiss'
 def load_llm():
     # Load the locally downloaded model here
     llm = CTransformers(
-        model = "https://github.com/omagarwal2002/Statistical-Analyzer-Chatbot-using-LLAMA-2/blob/main/llama-2-7b-chat.ggmlv3.q4_0.bin",
+        model = "llama-2-7b-chat.ggmlv3.q4_0.bin",
         model_type="llama",
         max_new_tokens = 512,
         temperature = 0.5
@@ -21,7 +21,6 @@ def load_llm():
     return llm
 
 st.title("Chat with CSV using Llama2 🦙🦜")
-st.markdown("<h3 style='text-align: center; color: white;'>Built by <a href='https://github.com/AIAnytime'>AI Anytime with ❤️ </a></h3>", unsafe_allow_html=True)
 
 uploaded_file = st.sidebar.file_uploader("Upload your Data", type="csv")
 
