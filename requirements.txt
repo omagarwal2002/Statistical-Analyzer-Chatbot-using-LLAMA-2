@@ -1,7 +1,4 @@
 streamlit
-streamlit-chat 
-langchain_community
-ctransformers
 pypdf
 langchain
 torch
