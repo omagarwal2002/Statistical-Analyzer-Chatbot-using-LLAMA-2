@@ -33,25 +33,23 @@ def main():
     
     if uploaded_file is not None:
         # Load CSV file
-        with st.spinner("Loading CSV file..."):
-            df = pd.read_csv(uploaded_file)
-            data = df.to_dict('records')
+        df = pd.read_csv(uploaded_file)
+        data = df.to_dict('records')
         
         # Split the text into Chunks
-        with st.spinner("Splitting text into chunks..."):
-            text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
-            text_chunks = text_splitter.split_documents(data)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
+        text_chunks = text_splitter.split_documents(data)
         
         # Download Sentence Transformers Embedding From Hugging Face
-        with st.spinner("Generating embeddings..."):
-            embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
+        embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
         
         # Convert the text Chunks into embeddings and save the embeddings into FAISS Knowledge Base
-        with st.spinner("Creating vector store..."):
-            docsearch = FAISS.from_documents(text_chunks, embeddings)
-            if not os.path.exists(DB_FAISS_PATH):
-                os.makedirs(DB_FAISS_PATH)
-            docsearch.save_local(DB_FAISS_PATH)
+        docsearch = FAISS.from_documents(text_chunks, embeddings)
+        
+        # Save vector store locally
+        if not os.path.exists(DB_FAISS_PATH):
+            os.makedirs(DB_FAISS_PATH)
+        docsearch.save_local(DB_FAISS_PATH)
         
         # Load LLM
         llm = CTransformers(
@@ -79,10 +77,9 @@ def main():
             if query.strip() == '':
                 continue
 
-            with st.spinner("Generating response..."):
-                result = qa.invoke({"question": query, "chat_history": chat_history})
-                st.write("Response: ", result['answer'])
-                chat_history.append((query, result['answer']))
+            result = qa.invoke({"question": query, "chat_history": chat_history})
+            st.write("Response: ", result['answer'])
+            chat_history.append((query, result['answer']))
 
 if __name__ == "__main__":
     main()
