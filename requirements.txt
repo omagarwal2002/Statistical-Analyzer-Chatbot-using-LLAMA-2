@@ -1,6 +1,7 @@
 streamlit
 pypdf
 langchain
+langchain_community
 torch
 accelerate
 bitsandbytes
