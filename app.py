@@ -6,6 +6,21 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.llms import CTransformers
 from langchain.chains import ConversationalRetrievalChain
 import os
+import requests
+
+
+def download_model(url, save_path):
+    response = requests.get(url)
+    with open(save_path, 'wb') as f:
+        f.write(response.content)
+
+
+
+# Download the model 
+model_url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/blob/main/llama-2-7b-chat.ggmlv3.q4_0.bin"
+local_model= "models/llama-2-7b-chat.ggmlv3.q4_0.bin"
+download_model(model_url, local_model)
+
 
 # Constants
 DB_FAISS_PATH = "vectorstore/db_faiss"
