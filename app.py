@@ -6,7 +6,6 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.llms import CTransformers
 from langchain.chains import ConversationalRetrievalChain
 import os
-import pandas as pd
 import requests
 
 
@@ -33,24 +32,20 @@ def main():
     
     if uploaded_file is not None:
         # Load CSV file
-        df = pd.read_csv(uploaded_file)
-        data = df.to_dict('records')
-        
-        # Split the text into Chunks
+        loader = CSVLoader(file_path="data/2019.csv", encoding="utf-8", csv_args={'delimiter': ','})
+        data = loader.load()
+
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
         text_chunks = text_splitter.split_documents(data)
-        
-        # Download Sentence Transformers Embedding From Hugging Face
-        embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
-        
-        # Convert the text Chunks into embeddings and save the embeddings into FAISS Knowledge Base
+
+
+        embeddings = HuggingFaceEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2')
+
+        # COnverting the text Chunks into embeddings and saving the embeddings into FAISS Knowledge Base
         docsearch = FAISS.from_documents(text_chunks, embeddings)
-        
-        # Save vector store locally
-        if not os.path.exists(DB_FAISS_PATH):
-            os.makedirs(DB_FAISS_PATH)
+
         docsearch.save_local(DB_FAISS_PATH)
-        
+
         # Load LLM
         llm = CTransformers(
             model="models/llama-2-7b-chat.ggmlv3.q4_0.bin",
