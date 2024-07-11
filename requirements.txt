@@ -1,7 +1,11 @@
 streamlit
-langchain
 langchain_community
 ctransformers
-sentence-transformers
-pandas
-faiss-cpu
+pypdf
+langchain
+torch
+accelerate
+bitsandbytes
+transformers
+sentence_transformers
+faiss_cpu
