@@ -6,6 +6,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.llms import CTransformers
 from langchain.chains import ConversationalRetrievalChain
 import os
+import pandas as pd
 import requests
 
 
@@ -13,7 +14,6 @@ def download_model(url, save_path):
     response = requests.get(url)
     with open(save_path, 'wb') as f:
         f.write(response.content)
-
 
 
 # Download the model 
@@ -34,8 +34,8 @@ def main():
     if uploaded_file is not None:
         # Load CSV file
         with st.spinner("Loading CSV file..."):
-            loader = CSVLoader(file_path=uploaded_file, encoding="utf-8", csv_args={'delimiter': ','})
-            data = loader.load()
+            df = pd.read_csv(uploaded_file)
+            data = df.to_dict('records')
         
         # Split the text into Chunks
         with st.spinner("Splitting text into chunks..."):
