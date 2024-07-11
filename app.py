@@ -16,7 +16,7 @@ def download_model(url, save_path):
 
 
 # Download the model 
-model_url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/blob/main/llama-2-7b-chat.ggmlv3.q4_0.bin"
+model_url = "https://github.com/omagarwal2002/Statistical-Analyzer-Chatbot-using-LLAMA-2/blob/main/llama-2-7b-chat.ggmlv3.q4_0.bin"
 local_model= "llama-2-7b-chat.ggmlv3.q4_0.bin"
 download_model(model_url, local_model)
 
